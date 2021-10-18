@@ -1,6 +1,6 @@
 import java.util.Scanner;
 public class GetAnswer extends Thread{
-  private String recievedInput;
+  private String recievedInput = "";
   public void run(){
     Scanner input = new Scanner(System.in);
     recievedInput = input.nextLine();

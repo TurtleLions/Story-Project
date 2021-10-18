@@ -71,16 +71,24 @@ public class MyStory{
       String answer = "";
       if (operator == 1){
         long start = System.currentTimeMillis();
+        long stop = System.currentTimeMillis();
         z = x+y;
         z1 = String.valueOf(z);
         System.out.println("Solve: " + x + " + " + y);
         Timer timer = new Timer();
+        GetAnswer getAnswer = new GetAnswer();
         timer.start();
-        answer = input.nextLine();
+        getAnswer.start();
+        while(answer.equals("") && !(stop-start>7000)){
+          answer = getAnswer.returnInput();
+          stop = System.currentTimeMillis();
+        }
         timer.interrupt();
-        long stop = System.currentTimeMillis();
         wait(1);
-        if(stop-start>5000){
+        getAnswer.interrupt();
+        stop = System.currentTimeMillis();
+        wait(1);
+        if(stop-start>7000){
           mathTestFailByTime(z);
         }
         else if (answer.equals(z1)){
@@ -92,16 +100,24 @@ public class MyStory{
       }
       if (operator == 2){
         long start = System.currentTimeMillis();
+        long stop = System.currentTimeMillis();
         z = x-y;
         z1 = String.valueOf(z);
         System.out.println("Solve: " + x + " - " + y);
         Timer timer = new Timer();
+        GetAnswer getAnswer = new GetAnswer();
         timer.start();
-        answer = input.nextLine();
+        getAnswer.start();
+        while(answer.equals("") && !(stop-start>7000)){
+          answer = getAnswer.returnInput();
+          stop = System.currentTimeMillis();
+        }
         timer.interrupt();
-        long stop = System.currentTimeMillis();
         wait(1);
-        if(stop-start>5000){
+        getAnswer.interrupt();
+        stop = System.currentTimeMillis();
+        wait(1);
+        if(stop-start>7000){
           mathTestFailByTime(z);
         }
         else if (answer.equals(z1)){
@@ -115,16 +131,24 @@ public class MyStory{
         x = random(12);
         y = random(12);
         long start = System.currentTimeMillis();
+        long stop = System.currentTimeMillis();
         z = x*y;
         z1 = String.valueOf(z);
         System.out.println("Solve: " + x + " * " + y);
         Timer timer = new Timer();
+        GetAnswer getAnswer = new GetAnswer();
         timer.start();
-        answer = input.nextLine();
+        getAnswer.start();
+        while(answer.equals("") && !(stop-start>7000)){
+          answer = getAnswer.returnInput();
+          stop = System.currentTimeMillis();
+        }
         timer.interrupt();
-        long stop = System.currentTimeMillis();
         wait(1);
-        if(stop-start>5000){
+        getAnswer.interrupt();
+        stop = System.currentTimeMillis();
+        wait(1);
+        if(stop-start>7000){
           mathTestFailByTime(z);
         }
         else if (answer.equals(z1)){
@@ -136,18 +160,26 @@ public class MyStory{
       }
       if (operator == 4){
         long start = System.currentTimeMillis();
+        long stop = System.currentTimeMillis();
         y = random(9)+1;
         x = random(10)*y;
         z = Math.round(x/y);
         z1 = String.valueOf(z);
         System.out.println("Solve: " + x + " / " + y);
         Timer timer = new Timer();
+        GetAnswer getAnswer = new GetAnswer();
         timer.start();
-        answer = input.nextLine();
+        getAnswer.start();
+        while(answer.equals("") && !(stop-start>7000)){
+          answer = getAnswer.returnInput();
+          stop = System.currentTimeMillis();
+        }
         timer.interrupt();
-        long stop = System.currentTimeMillis();
         wait(1);
-        if(stop-start>5000){
+        getAnswer.interrupt();
+        stop = System.currentTimeMillis();
+        wait(1);
+        if(stop-start>7000){
           mathTestFailByTime(z);
         }
         else if (answer.equals(z1)){
@@ -187,9 +219,6 @@ public class MyStory{
     }
     wait(2000);
     hallway();
-  }
-  public void mathTestF(){
-    health-=20;
   }
   public void hallway(){
     clearConsole();
