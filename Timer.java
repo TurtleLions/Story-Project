@@ -19,7 +19,7 @@ public class Timer extends Thread {
           Thread.currentThread().interrupt();
         }
       } 
-    System.out.print("\033[2K Time's up!\0338");
+    System.out.print("\033[2K Time's up! Do your best to answer the question!\0338");
     interrupt();
     }
 }

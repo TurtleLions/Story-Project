@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.concurrent.atomic.*;
 public class MyStory{
   private int gems;
   private int health;
@@ -79,16 +80,14 @@ public class MyStory{
         GetAnswer getAnswer = new GetAnswer();
         timer.start();
         getAnswer.start();
-        while(answer.equals("") && !(stop-start>7000)){
-          answer = getAnswer.returnInput();
+        while(answer.equals("") && stop-start<5000){
+          answer = setAnswer.get();
           stop = System.currentTimeMillis();
         }
         timer.interrupt();
-        wait(1);
         getAnswer.interrupt();
-        stop = System.currentTimeMillis();
         wait(1);
-        if(stop-start>7000){
+        if(stop-start>5000){
           mathTestFailByTime(z);
         }
         else if (answer.equals(z1)){
@@ -108,16 +107,14 @@ public class MyStory{
         GetAnswer getAnswer = new GetAnswer();
         timer.start();
         getAnswer.start();
-        while(answer.equals("") && !(stop-start>7000)){
-          answer = getAnswer.returnInput();
+        while(answer.equals("") && stop-start<5000){
+          answer = setAnswer.get();
           stop = System.currentTimeMillis();
         }
         timer.interrupt();
-        wait(1);
         getAnswer.interrupt();
-        stop = System.currentTimeMillis();
         wait(1);
-        if(stop-start>7000){
+        if(stop-start>5000){
           mathTestFailByTime(z);
         }
         else if (answer.equals(z1)){
@@ -139,16 +136,14 @@ public class MyStory{
         GetAnswer getAnswer = new GetAnswer();
         timer.start();
         getAnswer.start();
-        while(answer.equals("") && !(stop-start>7000)){
-          answer = getAnswer.returnInput();
+        while(answer.equals("") && stop-start<5000){
+          answer = setAnswer.get();
           stop = System.currentTimeMillis();
         }
         timer.interrupt();
-        wait(1);
         getAnswer.interrupt();
-        stop = System.currentTimeMillis();
         wait(1);
-        if(stop-start>7000){
+        if(stop-start>5000){
           mathTestFailByTime(z);
         }
         else if (answer.equals(z1)){
@@ -170,16 +165,14 @@ public class MyStory{
         GetAnswer getAnswer = new GetAnswer();
         timer.start();
         getAnswer.start();
-        while(answer.equals("") && !(stop-start>7000)){
-          answer = getAnswer.returnInput();
+        while(answer.equals("") && stop-start<5000){
+          answer = setAnswer.get();
           stop = System.currentTimeMillis();
         }
         timer.interrupt();
-        wait(1);
         getAnswer.interrupt();
-        stop = System.currentTimeMillis();
         wait(1);
-        if(stop-start>7000){
+        if(stop-start>5000){
           mathTestFailByTime(z);
         }
         else if (answer.equals(z1)){
@@ -219,6 +212,9 @@ public class MyStory{
     }
     wait(2000);
     hallway();
+  }
+  public void mathTestF(){
+    health-=20;
   }
   public void hallway(){
     clearConsole();

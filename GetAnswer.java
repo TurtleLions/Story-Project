@@ -1,20 +1,12 @@
 import java.util.Scanner;
-import java.util.concurrent.*;
+import java.util.concurrent.atomic.*;
 public class GetAnswer extends Thread{
-  private String recievedInput;
+  private String recievedInput = "";
   public void run(){
     Scanner input = new Scanner(System.in);
     recievedInput = input.nextLine();
+    AtomicReference<String> setAnswer = new AtomicReference<String>();
+    setAnswer.set(recievedInput);
   }
-  public void returns() throws InterruptedException, ExecutionException{
-    ExecutorService executor = Executors.newSingleThreadExecutor();
-    Callable<String> callable = new Callable<String>(){
-      @Override
-      public String call(){
-        return recievedInput;
-      }
-    };
-    Future<String> future = executor.submit(callable);
-    executor.shutdown();
-  }
+  
 }

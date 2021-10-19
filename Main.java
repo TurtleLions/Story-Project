@@ -1,4 +1,3 @@
-//To Do: Check why hallway() does not take first input after time out.
 /*
 Remember when we all had to memorize multiplication and division tables!
 */
