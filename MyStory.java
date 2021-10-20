@@ -4,6 +4,7 @@ public class MyStory{
   private int gems;
   private int health;
   private int weaponStrength;
+  static AtomicReference<String> setAnswer = new AtomicReference<String>();
   public MyStory() {
     gems = 0;
     health = 100;
@@ -70,6 +71,7 @@ public class MyStory{
       int operator = random(4);
       Scanner input = new Scanner(System.in);
       String answer = "";
+      setAnswer.set(answer);
       if (operator == 1){
         long start = System.currentTimeMillis();
         long stop = System.currentTimeMillis();
@@ -353,14 +355,22 @@ public class MyStory{
     System.out.print("\033[H\033[2J");
     System.out.flush();
   }
-    private void wait(int milliseconds)
-    {
-        try {
-            Thread.sleep(milliseconds);
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        } 
+  private void wait(int milliseconds)
+  {
+      try {
+          Thread.sleep(milliseconds);
+      }
+      catch(Exception e)
+      {
+          e.printStackTrace();
+      } 
+  }
+  static class GetAnswer extends Thread{
+    private String recievedInput = "";
+    public void run(){
+      Scanner input = new Scanner(System.in);
+      recievedInput = input.nextLine();
+      setAnswer.set(recievedInput);
     }
+  }
 }
