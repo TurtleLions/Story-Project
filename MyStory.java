@@ -1,18 +1,28 @@
 import java.util.Scanner;
-import java.util.concurrent.atomic.*;
 public class MyStory{
   private int gems;
   private int health;
   private int weaponStrength;
-  static AtomicReference<String> setAnswer = new AtomicReference<String>();
+  /**
+  * Contructs MyStory object
+  */
   public MyStory() {
     gems = 0;
     health = 100;
     weaponStrength = 1;
   }
+  /**
+  * Returns a random integer
+  * @param range The range of possible random numbers
+  * @return A random integer generated
+  * Precondition: range>0
+  */
   public int random(int range){
     return (int)(range*Math.random()+1);
   }
+  /**
+  * First method that should be called on a MyStory object
+  */
   public void start(){
     clearConsole();
     System.out.println("You have entered a dungeon to collect 10 \uD83D\uDC8E.\nYou have heard there are dangerous monsters within.\nOf the 3 doors, which way do you go? (left, right, or straight)");
@@ -20,9 +30,14 @@ public class MyStory{
     String input = UserInput.getValidInput("left", "right", "straight");
     door();
   }
+  /**
+  * Method called during MyStory instance that should not be called manually
+  * Implements random events
+  */
   public void door(){
     clearConsole();
-    int r = 4;
+    int r = random(4);
+    //gem find
     if(r==1){
       gems++;
       if (gems == 1){
@@ -37,6 +52,7 @@ public class MyStory{
       wait(2000);
       hallway();
     }
+    //get attacked
     else if(r==2){
       int estrength = random(10)+5;
       int lostHp = Math.round(estrength/(int)(Math.sqrt(weaponStrength)));
@@ -51,16 +67,26 @@ public class MyStory{
       wait(2000);
       hallway();
     }
+    //upgrade weapon
     else if(r==3){
       weaponStrength++;
       System.out.println("You find a tool that helps you make a weapon upgrade.\nYour weapon is of " + weaponStrength + " strength.");
       wait(2000);
       hallway();
     }
+    //cue MathTest method
     else if(r==4){
       mathTest();
     }
   }
+  /**
+  * Method called during MyStory instance that should not be called manually
+  * Prints random problem to be solved by user
+  * User must input correct answer within 5 seconds
+  * Correctly answered runs mathTestCorrect()
+  * Incorrectly answered runs mathTestFail()
+  * Took more than 5 seconds to answer runs mathTestFailByTime()
+  */
   public void mathTest(){
       System.out.println("Keep in mind you have 5 seconds to answer without penalty.");
       wait(1000);
@@ -71,23 +97,17 @@ public class MyStory{
       int operator = random(4);
       Scanner input = new Scanner(System.in);
       String answer = "";
-      setAnswer.set(answer);
+      //addition
       if (operator == 1){
         long start = System.currentTimeMillis();
-        long stop = System.currentTimeMillis();
         z = x+y;
         z1 = String.valueOf(z);
         System.out.println("Solve: " + x + " + " + y);
         Timer timer = new Timer();
-        GetAnswer getAnswer = new GetAnswer();
         timer.start();
-        getAnswer.start();
-        while(answer.equals("") && stop-start<5000){
-          answer = setAnswer.get();
-          stop = System.currentTimeMillis();
-        }
+        answer = input.nextLine();
         timer.interrupt();
-        getAnswer.interrupt();
+        long stop = System.currentTimeMillis();
         wait(1);
         if(stop-start>5000){
           mathTestFailByTime(z);
@@ -99,22 +119,17 @@ public class MyStory{
           mathTestFail(z);
         }
       }
+      //subtraction
       if (operator == 2){
         long start = System.currentTimeMillis();
-        long stop = System.currentTimeMillis();
         z = x-y;
         z1 = String.valueOf(z);
         System.out.println("Solve: " + x + " - " + y);
         Timer timer = new Timer();
-        GetAnswer getAnswer = new GetAnswer();
         timer.start();
-        getAnswer.start();
-        while(answer.equals("") && stop-start<5000){
-          answer = setAnswer.get();
-          stop = System.currentTimeMillis();
-        }
+        answer = input.nextLine();
         timer.interrupt();
-        getAnswer.interrupt();
+        long stop = System.currentTimeMillis();
         wait(1);
         if(stop-start>5000){
           mathTestFailByTime(z);
@@ -126,24 +141,19 @@ public class MyStory{
           mathTestFail(z);
         }
       }
+      //multiplication
       if (operator == 3){
         x = random(12);
         y = random(12);
         long start = System.currentTimeMillis();
-        long stop = System.currentTimeMillis();
         z = x*y;
         z1 = String.valueOf(z);
         System.out.println("Solve: " + x + " * " + y);
         Timer timer = new Timer();
-        GetAnswer getAnswer = new GetAnswer();
         timer.start();
-        getAnswer.start();
-        while(answer.equals("") && stop-start<5000){
-          answer = setAnswer.get();
-          stop = System.currentTimeMillis();
-        }
+        answer = input.nextLine();
         timer.interrupt();
-        getAnswer.interrupt();
+        long stop = System.currentTimeMillis();
         wait(1);
         if(stop-start>5000){
           mathTestFailByTime(z);
@@ -155,24 +165,19 @@ public class MyStory{
           mathTestFail(z);
         }
       }
+      //division
       if (operator == 4){
         long start = System.currentTimeMillis();
-        long stop = System.currentTimeMillis();
         y = random(9)+1;
         x = random(10)*y;
         z = Math.round(x/y);
         z1 = String.valueOf(z);
         System.out.println("Solve: " + x + " / " + y);
         Timer timer = new Timer();
-        GetAnswer getAnswer = new GetAnswer();
         timer.start();
-        getAnswer.start();
-        while(answer.equals("") && stop-start<5000){
-          answer = setAnswer.get();
-          stop = System.currentTimeMillis();
-        }
+        answer = input.nextLine();
         timer.interrupt();
-        getAnswer.interrupt();
+        long stop = System.currentTimeMillis();
         wait(1);
         if(stop-start>5000){
           mathTestFailByTime(z);
@@ -185,6 +190,11 @@ public class MyStory{
         }
       }
   }
+  /**
+  * Method called during MyStory instance that should not be called manually
+  * Called when user failed to input correct answer in time 
+  * @param correctAnswer Answer user should have inputted
+  */
   public void mathTestFailByTime(int correctAnswer){
     clearConsole();
     health-=20;
@@ -197,12 +207,21 @@ public class MyStory{
     wait(2000);
     hallway();
   }
+  /**
+  * Method called during MyStory instance that should not be called manually
+  * Called when user inputs the correct answer on time
+  */
   public void mathTestCorrect(){
     clearConsole();
     System.out.println("\u001b[32mCorrect!\u001b[37m");
     wait(2000);
     hallway();
   }
+  /**
+  * Method called during MyStory instance that should not be called manually
+  * Called when user inputs an incorrect answer on time
+  * @param correctAnswer Answer user should have inputted
+  */
   public void mathTestFail(int correctAnswer){
     clearConsole();
     health-=20;
@@ -215,9 +234,10 @@ public class MyStory{
     wait(2000);
     hallway();
   }
-  public void mathTestF(){
-    health-=20;
-  }
+  /**
+  * Method called during MyStory instance that should not be called manually
+  * Called when user enters a new hallway
+  */
   public void hallway(){
     clearConsole();
     if(health<=0){
@@ -266,6 +286,10 @@ public class MyStory{
       straight(straightr);
     }
   }
+  /**
+  * Method called during MyStory instance that should not be called manually
+  * Called when user enters left option
+  */
   public void left(int leftr){
     
     if(leftr==1){
@@ -282,7 +306,10 @@ public class MyStory{
       hallway();
     }
   }
-  
+  /**
+  * Method called during MyStory instance that should not be called manually
+  * Called when user enters right option
+  */
   public void right(int rightr){
     
     if(rightr==1){
@@ -300,6 +327,10 @@ public class MyStory{
     }
     
   }
+  /**
+  * Method called during MyStory instance that should not be called manually
+  * Called when user enters straight option
+  */
   public void straight(int straightr){
     
     if(straightr==1){
@@ -315,21 +346,29 @@ public class MyStory{
       }
       hallway();
     }
-    
   }
-
-  
-  
+  /**
+  * Method called during MyStory instance that should not be called manually
+  * Called when user has collected required amount of gems
+  */
   public void win(){
     clearConsole();
     System.out.println("You have successfully collected 10 \uD83D\uDC8E!");
     System.exit(0);
   }
+  /**
+  * Method called during MyStory instance that should not be called manually
+  * Called when user loses all healthpoints
+  */
   public void lose(){
     clearConsole();
     System.out.println("You died. You are now fish food.");
     System.exit(0);
   }
+  /**
+  * Method called during MyStory instance that should not be called manually
+  * Called every hallway() to update user progress
+  */
   public void healthBar(){
     int bigHeart = health/10;
     int bar = 0;
@@ -351,10 +390,18 @@ public class MyStory{
     }
     System.out.print("\n");
   }
+  /**
+  * Called when developer wants to clear console
+  */
   public static void clearConsole(){
     System.out.print("\033[H\033[2J");
     System.out.flush();
   }
+  /**
+  * Called when developer wants to stop thread for a certain amount of time
+  * @param milliseconds Amount of milliseconds to wait
+  * Precondition: milliseconds>0
+  */
   private void wait(int milliseconds)
   {
       try {
@@ -364,13 +411,5 @@ public class MyStory{
       {
           e.printStackTrace();
       } 
-  }
-  static class GetAnswer extends Thread{
-    private String recievedInput = "";
-    public void run(){
-      Scanner input = new Scanner(System.in);
-      recievedInput = input.nextLine();
-      setAnswer.set(recievedInput);
-    }
   }
 }

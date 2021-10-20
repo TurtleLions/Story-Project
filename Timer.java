@@ -1,4 +1,8 @@
 public class Timer extends Thread {
+  /**
+  * Method called to initiate a printed timer of 5 seconds, most likely when console is waiting for input
+  * Precondition: used Thread.start(), not Thread.run()
+  **/
   public void run(){
       System.out.print("\n \0337 \033[A \r ");
       for(int i=5;i>0;){
@@ -19,7 +23,7 @@ public class Timer extends Thread {
           Thread.currentThread().interrupt();
         }
       } 
-    System.out.print("\033[2K Time's up! Do your best to answer the question!\0338");
+    System.out.print("\033[2K Time's up! Do your best to complete the problem!\0338");
     interrupt();
     }
 }

@@ -1,7 +1,8 @@
-/*
-Remember when we all had to memorize multiplication and division tables!
-*/
+//Remember when we all had to memorize multiplication and division tables!
 public class Main {
+  /**
+  * Main method
+  */
   public static void main(String[] args)
     {
         MyStory.clearConsole();
