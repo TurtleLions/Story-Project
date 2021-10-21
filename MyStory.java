@@ -9,7 +9,7 @@ public class MyStory{
   * Contructs MyStory object
   */
   public MyStory() {
-    gems = 2;
+    gems = 0;
     health = 100;
     weaponStrength = 1;
     correctAnswers = 0;
