@@ -40,7 +40,7 @@ public class MyStory{
   */
   public void door(){
     clearConsole();
-    int r = 1;
+    int r = random(7);
     //gem find
     if(r==1 || r==2){
       gems++;
