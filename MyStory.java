@@ -9,7 +9,7 @@ public class MyStory{
   * Contructs MyStory object
   */
   public MyStory() {
-    gems = 0;
+    gems = 2;
     health = 100;
     weaponStrength = 1;
     correctAnswers = 0;
@@ -40,13 +40,14 @@ public class MyStory{
   */
   public void door(){
     clearConsole();
-    int r = 7;
+    int r = 1;
     //gem find
     if(r==1 || r==2){
       gems++;
       System.out.println("You found a \uD83D\uDC8E! You have "+gems+" \uD83D\uDC8E.");
       wait(2000);
       if(gems==3){
+        clearConsole();
         System.out.println("Upon finding the third \uD83D\uDC8E, you have a choice.\n1. Regain 30 healthpoints\n2. Increase weapon strength by 3");
         String input = UserInput.getValidInput("1","2");
         if(input.equals("1")){
@@ -55,6 +56,11 @@ public class MyStory{
         else if(input.equals("2")){
           weaponStrength+=3;
         }
+      }
+      else if (gems==7){
+        clearConsole();
+        System.out.println("Final stretch!\nYou have 7 \uD83D\uDC8E.");
+        wait(2000);
       }
       else if(gems == 10){
         win();
