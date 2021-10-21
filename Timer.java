@@ -5,6 +5,7 @@ public class Timer extends Thread {
   **/
   public void run(){
       System.out.print("\n \0337 \033[A \r ");
+      boolean check = false;
       for(int i=5;i>0;){
         if(i<=3){
           System.out.println("\u001b[31m"+i+"\u001b[37m seconds left!");
@@ -20,10 +21,13 @@ public class Timer extends Thread {
           System.out.print("\033[A \r \b ");
         }catch(InterruptedException e){
           MyStory.clearConsole();
+          check = true;
           Thread.currentThread().interrupt();
         }
-      } 
-    System.out.print("\033[2K Time's up! Do your best to complete the problem!\0338");
+      }
+    if(!check){
+      System.out.print("\033[2K Time's up! Do your best to complete the problem!\0338");
+    }
     interrupt();
     }
 }

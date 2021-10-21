@@ -3,6 +3,8 @@ public class MyStory{
   private int gems;
   private int health;
   private int weaponStrength;
+  private int correctAnswers;
+  private int incorrectAnswers;
   /**
   * Contructs MyStory object
   */
@@ -10,6 +12,8 @@ public class MyStory{
     gems = 0;
     health = 100;
     weaponStrength = 1;
+    correctAnswers = 0;
+    incorrectAnswers = 0;
   }
   /**
   * Returns a random integer
@@ -27,7 +31,7 @@ public class MyStory{
     clearConsole();
     System.out.println("You have entered a dungeon to collect 10 \uD83D\uDC8E.\nYou have heard there are dangerous monsters within.\nOf the 3 doors, which way do you go? (left, right, or straight)");
     System.out.println(" _______|d|_______ \n|\t              |\n|\t              |\n|\t              |\nd\t              d\n|\t              |\n|\t              |\n|\t              |");
-    String input = UserInput.getValidInput("left", "right", "straight");
+    UserInput.getValidInput("left", "right", "straight");
     door();
   }
   /**
@@ -36,24 +40,29 @@ public class MyStory{
   */
   public void door(){
     clearConsole();
-    int r = random(4);
+    int r = 7;
     //gem find
-    if(r==1){
+    if(r==1 || r==2){
       gems++;
-      if (gems == 1){
-        System.out.println("You found a \uD83D\uDC8E! You have "+gems+" \uD83D\uDC8E.");
+      System.out.println("You found a \uD83D\uDC8E! You have "+gems+" \uD83D\uDC8E.");
+      wait(2000);
+      if(gems==3){
+        System.out.println("Upon finding the third \uD83D\uDC8E, you have a choice.\n1. Regain 30 healthpoints\n2. Increase weapon strength by 3");
+        String input = UserInput.getValidInput("1","2");
+        if(input.equals("1")){
+          health+=30;
+        }
+        else if(input.equals("2")){
+          weaponStrength+=3;
+        }
       }
-      else{
-        System.out.println("You found a \uD83D\uDC8E! You have "+gems+" \uD83D\uDC8E.");
-      }
-      if(gems == 10){
+      else if(gems == 10){
         win();
       }
-      wait(2000);
       hallway();
     }
     //get attacked
-    else if(r==2){
+    else if(r==3){
       int estrength = random(10)+5;
       int lostHp = Math.round(estrength/(int)(Math.sqrt(weaponStrength)));
       health -= lostHp;
@@ -68,14 +77,14 @@ public class MyStory{
       hallway();
     }
     //upgrade weapon
-    else if(r==3){
+    else if(r==4){
       weaponStrength++;
       System.out.println("You find a tool that helps you make a weapon upgrade.\nYour weapon is of " + weaponStrength + " strength.");
       wait(2000);
       hallway();
     }
     //cue MathTest method
-    else if(r==4){
+    else if(r==5 || r==6 || r==7){
       mathTest();
     }
   }
@@ -83,112 +92,114 @@ public class MyStory{
   * Method called during MyStory instance that should not be called manually
   * Prints random problem to be solved by user
   * User must input correct answer within 5 seconds
+  * Requires any input to finish running method
   * Correctly answered runs mathTestCorrect()
   * Incorrectly answered runs mathTestFail()
   * Took more than 5 seconds to answer runs mathTestFailByTime()
   */
   public void mathTest(){
-      System.out.println("Keep in mind you have 5 seconds to answer without penalty.");
-      wait(1000);
-      int x = random(25);
-      int y = random(25);
-      int z;
-      String z1;
-      int operator = random(4);
-      Scanner input = new Scanner(System.in);
-      String answer = "";
-      //addition
-      if (operator == 1){
-        long start = System.currentTimeMillis();
-        z = x+y;
-        z1 = String.valueOf(z);
-        System.out.println("Solve: " + x + " + " + y);
-        Timer timer = new Timer();
-        timer.start();
-        answer = input.nextLine();
-        timer.interrupt();
-        long stop = System.currentTimeMillis();
-        wait(1);
-        if(stop-start>5000){
-          mathTestFailByTime(z);
-        }
-        else if (answer.equals(z1)){
-          mathTestCorrect();
-        }
-        else{
-          mathTestFail(z);
-        }
+    System.out.println("Keep in mind you have 5 seconds to answer without penalty.");
+    wait(1000);
+    int x = random(25);
+    int y = random(25);
+    int z;
+    String z1;
+    int operator = random(4);
+    Scanner input = new Scanner(System.in);
+    String answer = "";
+    //addition
+    if (operator == 1){
+      long start = System.currentTimeMillis();
+      z = x+y;
+      z1 = String.valueOf(z);
+      System.out.println("Solve: " + x + " + " + y);
+      Timer timer = new Timer();
+      timer.start();
+      answer = input.nextLine();
+      timer.interrupt();
+      long stop = System.currentTimeMillis();
+      wait(10);
+      if(stop-start>5000){
+        mathTestFailByTime(z);
       }
-      //subtraction
-      if (operator == 2){
-        long start = System.currentTimeMillis();
-        z = x-y;
-        z1 = String.valueOf(z);
-        System.out.println("Solve: " + x + " - " + y);
-        Timer timer = new Timer();
-        timer.start();
-        answer = input.nextLine();
-        timer.interrupt();
-        long stop = System.currentTimeMillis();
-        wait(1);
-        if(stop-start>5000){
-          mathTestFailByTime(z);
-        }
-        else if (answer.equals(z1)){
-          mathTestCorrect();
-        }
-        else{
-          mathTestFail(z);
-        }
+      else if (answer.equals(z1)){
+        mathTestCorrect();
       }
-      //multiplication
-      if (operator == 3){
-        x = random(12);
-        y = random(12);
-        long start = System.currentTimeMillis();
-        z = x*y;
-        z1 = String.valueOf(z);
-        System.out.println("Solve: " + x + " * " + y);
-        Timer timer = new Timer();
-        timer.start();
-        answer = input.nextLine();
-        timer.interrupt();
-        long stop = System.currentTimeMillis();
-        wait(1);
-        if(stop-start>5000){
-          mathTestFailByTime(z);
-        }
-        else if (answer.equals(z1)){
-          mathTestCorrect();
-        }
-        else{
-          mathTestFail(z);
-        }
+      else{
+        mathTestFail(z);
       }
-      //division
-      if (operator == 4){
-        long start = System.currentTimeMillis();
-        y = random(9)+1;
-        x = random(10)*y;
-        z = Math.round(x/y);
-        z1 = String.valueOf(z);
-        System.out.println("Solve: " + x + " / " + y);
-        Timer timer = new Timer();
-        timer.start();
-        answer = input.nextLine();
-        timer.interrupt();
-        long stop = System.currentTimeMillis();
-        wait(1);
-        if(stop-start>5000){
-          mathTestFailByTime(z);
-        }
-        else if (answer.equals(z1)){
-          mathTestCorrect();
-        }
-        else{
-          mathTestFail(z);
-        }
+    }
+    //subtraction
+    if (operator == 2){
+      long start = System.currentTimeMillis();
+      z = x-y;
+      z1 = String.valueOf(z);
+      System.out.println("Solve: " + x + " - " + y);
+      Timer timer = new Timer();
+      timer.start();
+      answer = input.nextLine();
+      timer.interrupt();
+      long stop = System.currentTimeMillis();
+      wait(10);
+      if(stop-start>5000){
+        mathTestFailByTime(z);
       }
+      else if (answer.equals(z1)){
+        mathTestCorrect();
+      }
+      else{
+        mathTestFail(z);
+      }
+    }
+    //multiplication
+    if (operator == 3){
+      x = random(12);
+      y = random(12);
+      long start = System.currentTimeMillis();
+      z = x*y;
+      z1 = String.valueOf(z);
+      System.out.println("Solve: " + x + " * " + y);
+      Timer timer = new Timer();
+      timer.start();
+      answer = input.nextLine();
+      timer.interrupt();
+      long stop = System.currentTimeMillis();
+      wait(10);
+      if(stop-start>5000){
+        mathTestFailByTime(z);
+      }
+      else if (answer.equals(z1)){
+        mathTestCorrect();
+      }
+      else{
+        mathTestFail(z);
+      }
+    }
+    //division
+    if (operator == 4){
+      y = random(9)+1;
+      x = random(10)*y;
+      z = x/y;
+      z1 = String.valueOf(z);
+      long start = System.currentTimeMillis();
+      System.out.println("Solve: " + x + " / " + y);
+      Timer timer = new Timer();
+      timer.start();
+      answer = input.nextLine();
+      long stop = System.currentTimeMillis();
+      timer.interrupt();
+      wait(10);
+      if(stop-start>5000){
+        mathTestFailByTime(z);
+      }
+      else if (answer.equals(z1)){
+        mathTestCorrect();
+      }
+      else{
+        mathTestFail(z);
+      }
+    }
+    input.close();
   }
   /**
   * Method called during MyStory instance that should not be called manually
@@ -196,6 +207,7 @@ public class MyStory{
   * @param correctAnswer Answer user should have inputted
   */
   public void mathTestFailByTime(int correctAnswer){
+    incorrectAnswers++;
     clearConsole();
     health-=20;
     if(health>0){
@@ -212,6 +224,7 @@ public class MyStory{
   * Called when user inputs the correct answer on time
   */
   public void mathTestCorrect(){
+    correctAnswers++;
     clearConsole();
     System.out.println("\u001b[32mCorrect!\u001b[37m");
     wait(2000);
@@ -223,6 +236,7 @@ public class MyStory{
   * @param correctAnswer Answer user should have inputted
   */
   public void mathTestFail(int correctAnswer){
+    incorrectAnswers++;
     clearConsole();
     health-=20;
     if(health>0){
@@ -237,6 +251,8 @@ public class MyStory{
   /**
   * Method called during MyStory instance that should not be called manually
   * Called when user enters a new hallway
+  * Creates hallway picture in console
+  * Calls healthBar() to create interface
   */
   public void hallway(){
     clearConsole();
@@ -353,7 +369,7 @@ public class MyStory{
   */
   public void win(){
     clearConsole();
-    System.out.println("You have successfully collected 10 \uD83D\uDC8E!");
+    System.out.println("You have successfully collected 10 \uD83D\uDC8E!\nNumber of correct answers: "+correctAnswers+"\nNumber of incorrect answers: "+incorrectAnswers+"\nAccuracy: "+(int)(correctAnswers/(1.0*correctAnswers+incorrectAnswers)*100)+"%");
     System.exit(0);
   }
   /**
@@ -362,7 +378,7 @@ public class MyStory{
   */
   public void lose(){
     clearConsole();
-    System.out.println("You died. You are now fish food.");
+    System.out.println("You died. You are now fish food.\nNumber of correct answers: "+correctAnswers+"\nNumber of incorrect answers: "+incorrectAnswers+"\nAccuracy: "+(int)(correctAnswers/(1.0*correctAnswers+incorrectAnswers)*100)+"%");
     System.exit(0);
   }
   /**
